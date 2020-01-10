@@ -34,6 +34,17 @@ module DatabaseCleaner
         end
       end
 
+      context "when passing url as Array" do
+        it "should store my describe db" do
+          nodes = ['redis://localhost:6379']
+          cluster = ::Redis.new :cluster => nodes
+          subject.db = nodes
+
+          expect(subject.db).to eq nodes
+          expect(subject.connection).to eq cluster
+        end
+      end
+
       it "should default to :default" do
         expect(subject.db).to eq :default
       end
